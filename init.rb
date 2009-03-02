@@ -25,6 +25,11 @@ module ActionView::Helpers::TagHelper
     
     return old_content_tag(*args,&block) unless ["textarea","select"].include? args[0].to_s
     return old_content_tag(*args,&block) unless has_prompt or has_tab_label
+    
+    if args[2]["maxlength"]
+      args[2]["onkeypress"] ||= ""
+      args[2]["onkeypress"] << "enforce_textarea_maxlength(this);"
+    end
   
     id = args[2]["id"]
     html = ""
@@ -37,7 +42,7 @@ module ActionView::Helpers::TagHelper
     html
   end
   
-  
+  #==========================================================================================
   private
   
   def tab_label_html(id,label)
