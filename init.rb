@@ -27,8 +27,8 @@ module ActionView::Helpers::TagHelper
     return old_content_tag(*args,&block) unless has_prompt or has_tab_label
     
     if args[2]["maxlength"]
-      args[2]["onkeypress"] ||= ""
-      args[2]["onkeypress"] << "enforce_textarea_maxlength(this);"
+      args[2]["onkeyup"] ||= ""
+      args[2]["onkeyup"] << "enforce_textarea_maxlength(this);"
     end
   
     id = args[2]["id"]

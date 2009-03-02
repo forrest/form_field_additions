@@ -16,6 +16,13 @@ FormFieldAdditions
     space filling labels that go in front of a form field, but you won't confuse users when they can't remember which field they are in.
 
     <%=text_field_tag "user[name]", :prompt => "Type your name...", :tab_label => "Name" %>
+    
+  MaxLength for textareas:
+   
+    As you know maxlength is not supported on text fields. This is an obvious oversite in html. This section of code as a :maxlength property
+    to the text_area_tag helper. When the user reaches the maximum length, the text will start getting truncated.
+    
+    <%=text_area_tag "description", :maxlength => 200 %>
 
 Installation
 =======

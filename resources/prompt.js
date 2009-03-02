@@ -80,6 +80,7 @@ function enforce_textarea_maxlength(textarea)
     if(v.gsub(/\n/,"<br/>").length>ml)
     {
         $(textarea).value = (v.truncate(ml,""));
+		return false;
     }
     return true;
 }
