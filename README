@@ -32,7 +32,7 @@ FormFieldAdditions
 Installation
 =======
 
-1) install the plugin with script/install plugin git://github.com/forrest/form_field_additions.git
+1) install the plugin with script/plugin install git://github.com/forrest/form_field_additions.git
 
 2) You will have to link to the prompt.js file that is added to your /public/javascripts folder.
 
