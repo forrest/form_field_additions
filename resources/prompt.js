@@ -70,17 +70,37 @@ function tab_label_onblur(event)
   label_div.hide();
 }
 
-function enforce_textarea_maxlength(textarea)
+function enforce_textarea_maxlength(textarea,count)
 {
     textarea = Element.extend(textarea);
     ml = $(textarea).getAttribute('maxlength');    
     if(!ml)
         return;
     v = $F($(textarea));
+	
     if(v.gsub(/\n/,"<br/>").length>ml)
-    {
         $(textarea).value = (v.truncate(ml,""));
-		return false;
-    }
-    return true;
+
+    new_v = $F($(textarea));
+	if(textarea.readAttribute("prompt") && new_v==textarea.readAttribute("prompt").strip())
+		new_v = "";
+    if(count)
+	{
+		left = ml-new_v.length;
+		count.update(left);
+		if(left==0)
+			count.addClassName("full_counter");
+		else if(left<=10)
+		{
+			count.removeClassName("full_counter");
+			count.addClassName("last_ten");
+		}
+		else
+		{
+			count.removeClassName("full_counter");
+			count.removeClassName("last_ten");
+		}
+	}
+    
+    return;
 }

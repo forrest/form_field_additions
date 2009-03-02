@@ -12,26 +12,31 @@ FormFieldAdditions
 
   Tab Labels:
 
-    These place a tab styled label above the focused window with the desired label. This works well with prompts, because you can skip the
-    space filling labels that go in front of a form field, but you won't confuse users when they can't remember which field they are in.
+    These place a tab styled label above the focused window with the desired label. This works well with prompts, because you can skip the space filling labels that go in front of a form field, but you won't confuse users when they can't remember which field they are in.
 
     <%=text_field_tag "user[name]", :prompt => "Type your name...", :tab_label => "Name" %>
     
   MaxLength for textareas:
    
-    As you know maxlength is not supported on text fields. This is an obvious oversite in html. This section of code as a :maxlength property
-    to the text_area_tag helper. When the user reaches the maximum length, the text will start getting truncated.
+    As you know maxlength is not supported on text fields. This is an obvious oversite in html. This section of code as a :maxlength property to the text_area_tag helper. When the user reaches the maximum length, the text will start getting truncated.
     
     <%=text_area_tag "description", :maxlength => 200 %>
+    
+  Counter for textareas:
+  
+    This function works with the maxlength option above. It allows you to provide the id of a counter object. This object will show the number of characters you have left before you hit your maxlength. It will add the classname "last_ten" when 10 characters or less are left and "full_counter" when there is no room left in your textarea.
+    
+    <%=text_area_tag "description", :maxlength => 200, :counter => "description_counter" %>
+    <span id='description_counter'></span>
 
 Installation
 =======
 
-1) You will have to link to the prompt.js file that will be added to you /public/javascripts folder.
+1) install the plugin with script/install plugin git://github.com/forrest/form_field_additions.git
 
-2) Installing the plugin you will have to add some stuff to your stylesheets. These styles are defaults for this
-plugin, but are easily modified. They also rely on two images that can be found in this plugins resource folder.
-You should copy these two images into your images folder.
+2) You will have to link to the prompt.js file that is added to your /public/javascripts folder.
+
+3) Installing the plugin you will have to add some stuff to your stylesheets. These styles are defaults for this plugin, but are easily modified. They also rely on two images that can be found in this plugins resource folder. You should copy these two images into your images folder.
 
 /*for Prompts----------------*/
       .prompt {
@@ -60,6 +65,13 @@ You should copy these two images into your images folder.
         background-position: left;
         line-height: 15px;
         display: block;
+      }
+/*for maxlength counter ---------------*/
+      .last_ten {
+      	color:#af0000;
+      }
+      .full_counter {
+      	color:red;
       }
 
 Copyright (c) 2009 Forrest Zeisler (Smibs Inc.), released under the MIT license

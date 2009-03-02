@@ -27,8 +27,13 @@ module ActionView::Helpers::TagHelper
     return old_content_tag(*args,&block) unless has_prompt or has_tab_label
     
     if args[2]["maxlength"]
+      counter = args[2]["counter"]
+      func = counter ? "; enforce_textarea_maxlength(this,$('#{counter}')); " : "; enforce_textarea_maxlength(this); "
+      args[2].delete("counter")
       args[2]["onkeyup"] ||= ""
-      args[2]["onkeyup"] << "enforce_textarea_maxlength(this);"
+      args[2]["onkeyup"] << func
+      args[2]["onchange"] ||= "" #onchange will check the length when you paste changes into the field
+      args[2]["onchange"] << func
     end
   
     id = args[2]["id"]
@@ -39,6 +44,7 @@ module ActionView::Helpers::TagHelper
     html << old_content_tag(*args,&block)
     html << prompt_script(id,args[2]["prompt"]) if has_prompt
     html << add_tab_label_script(id) if has_tab_label
+    html << javascript_tag("setTimeout(function(){ enforce_textarea_maxlength($('#{id}'),$('#{counter}'));}, 1);") if counter
     html
   end
   
