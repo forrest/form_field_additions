@@ -1,0 +1,58 @@
+FormFieldAdditions
+================
+
+  Field prompts:
+
+    This allows for input tags to have a :prompt option. The prompt string will appear grey'd out in the field if the field is blank. The field
+    will clear on focus if it contains the prompt. It will also re-fill in the prompt if it blurs when it is empty. Select fields obviously won't
+    change their values, but will toggle to grey and back.
+
+    <%=text_field_tag :name, :prompt => "Type your name..." %>
+
+
+  Tab Labels:
+
+    These place a tab styled label above the focused window with the desired label. This works well with prompts, because you can skip the
+    space filling labels that go in front of a form field, but you won't confuse users when they can't remember which field they are in.
+
+    <%=text_field_tag "user[name]", :prompt => "Type your name...", :tab_label => "Name" %>
+
+Installation
+=======
+
+1) You will have to link to the prompt.js file that will be added to you /public/javascripts folder.
+
+2) Installing the plugin you will have to add some stuff to your stylesheets. These styles are defaults for this
+plugin, but are easily modified. They also rely on two images that can be found in this plugins resource folder.
+You should copy these two images into your images folder.
+
+//for Prompts-----------
+      .prompt {
+        color:#888888
+      }
+
+//for Tab Labels--------
+      .tab_label {
+        text-align center,
+        position absolute,
+        z-index 3,
+        font-size 10px
+      }
+      .tab_label span {
+          padding-right: 5px;
+          background-position: right;
+          background-repeat: no-repeat;
+          background-image: url(/images/tab_label_right.gif);
+          display: table;
+          margin: -15px auto 0 auto;
+          height: 15px;
+      }
+      .tab_label span label {
+        padding-left: 5px;
+        background-image: url(/images/tab_label_left.gif);
+        background-position: left;
+        line-height: 15px;
+        display: block;
+      }
+
+Copyright (c) 2009 Forrest Zeisler (Smibs Inc.), released under the MIT license
