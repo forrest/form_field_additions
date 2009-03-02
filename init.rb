@@ -23,7 +23,7 @@ module ActionView::Helpers::TagHelper
     has_tab_label = !!(args[2] and not args[2]["tab_label"].blank?)
     has_prompt = !!(args[2] and not args[2]["prompt"].blank?)
     
-    return old_content_tag(*args,&block) unless args[0].to_s == "textarea"
+    return old_content_tag(*args,&block) unless ["textarea","select"].include? args[0].to_s
     return old_content_tag(*args,&block) unless has_prompt or has_tab_label
   
     id = args[2]["id"]
