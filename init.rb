@@ -1,17 +1,55 @@
 module ActionView::Helpers::TagHelper
   alias_method :old_tag, :tag
+  alias_method :old_content_tag, :content_tag
 
-  def tag(*arg)
+  def tag(*args)
+    has_tab_label = !!(args[1] and not args[1]["tab_label"].blank?)
+    has_prompt = !!(args[1] and not args[1]["prompt"].blank?)
+
+    return old_tag(*args) unless has_prompt or has_tab_label
+
     html = ""
-    has_tab_label = !!(arg[1] and not arg[1]["tab_label"].blank?)
-    has_prompt = !!(arg[1] and not arg[1]["prompt"].blank?)
-
+    id = args[1]["id"]
     if has_tab_label
-      html << "<div class='tab_label' style='display:none'><span><label for='#{arg[1]["id"]}'>#{h arg[1]["tab_label"]}</label></span></div>"
+      html << tab_label_html(id,args[1]["tab_label"])
     end
-    html << old_tag(*arg)
-    html << javascript_tag("add_prompt($('#{arg[1]["id"]}'),'#{escape_javascript arg[1]["prompt"]}')") if has_prompt
-    html << javascript_tag("add_tab_label($('#{arg[1]["id"]}'),'#{escape_javascript arg[1]["tab_label"]}')") if has_tab_label
+    html << old_tag(*args)
+    html << prompt_script(id,args[1]["prompt"]) if has_prompt
+    html << add_tab_label_script(id) if has_tab_label
     html
   end
+  
+  def content_tag(*args,&block)
+    has_tab_label = !!(args[2] and not args[2]["tab_label"].blank?)
+    has_prompt = !!(args[2] and not args[2]["prompt"].blank?)
+    
+    return old_content_tag(*args,&block) unless args[0].to_s == "textarea"
+    return old_content_tag(*args,&block) unless has_prompt or has_tab_label
+  
+    id = args[2]["id"]
+    html = ""
+    if has_tab_label
+      html << tab_label_html(args,args[2]["tab_label"])
+    end
+    html << old_content_tag(*args,&block)
+    html << prompt_script(id,args[2]["prompt"]) if has_prompt
+    html << add_tab_label_script(id) if has_tab_label
+    html
+  end
+  
+  
+  private
+  
+  def tab_label_html(id,label)
+    "<div class='tab_label' style='display:none'><span><label for='#{id}'>#{h label}</label></span></div>"
+  end
+  
+  def prompt_script(id,prompt)
+    javascript_tag("add_prompt($('#{id}'),'#{escape_javascript prompt}')")
+  end
+  
+  def add_tab_label_script(id)
+    javascript_tag("add_tab_label($('#{id}'))")
+  end
+  
 end

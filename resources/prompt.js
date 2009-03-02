@@ -69,3 +69,17 @@ function tab_label_onblur(event)
     return;
   label_div.hide();
 }
+
+function enforce_textarea_maxlength(textarea)
+{
+    textarea = Element.extend(textarea);
+    ml = $(textarea).getAttribute('maxlength');    
+    if(!ml)
+        return;
+    v = $F($(textarea));
+    if(v.gsub(/\n/,"<br/>").length>ml)
+    {
+        $(textarea).value = (v.truncate(ml,""));
+    }
+    return true;
+}
