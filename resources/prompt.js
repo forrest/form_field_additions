@@ -12,6 +12,9 @@ function add_prompt(input,value)
   input_item.writeAttribute("prompt",value);
   input.observe('focus',prompt_onfocus);
   input.observe('blur',prompt_onblur);
+  input_item.writeAttribute("promptAdded",true);
+  if(input_item.readAttribute("value")==null || input_item.readAttribute("value")=="")
+     input_item.writeAttribute("value",value);
   prompt_onblur(input);
 }
 
