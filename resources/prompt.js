@@ -79,7 +79,11 @@ function enforce_textarea_maxlength(textarea,count)
     v = $F($(textarea));
 	
     if(v.gsub(/\n/,"<br/>").length>ml)
-        $(textarea).value = (v.truncate(ml,""));
+    {
+      st = $(textarea).scrollTop;
+      $(textarea).value = (v.truncate(ml,""));
+      $(textarea).scrollTop = st;
+    }
 
     new_v = $F($(textarea));
 	if(textarea.readAttribute("prompt") && new_v==textarea.readAttribute("prompt").strip())
