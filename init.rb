@@ -22,11 +22,12 @@ module ActionView::Helpers::TagHelper
   def content_tag(*args,&block)
     has_tab_label = !!(args[2] and not args[2]["tab_label"].blank?)
     has_prompt = !!(args[2] and not args[2]["prompt"].blank?)
-    
+    has_maxlength = !!(args[2] and not args[2]["maxlength"].blank?)
+
     return old_content_tag(*args,&block) unless ["textarea","select"].include? args[0].to_s
-    return old_content_tag(*args,&block) unless has_prompt or has_tab_label
+    return old_content_tag(*args,&block) unless has_prompt or has_tab_label or has_maxlength
     
-    if args[2]["maxlength"]
+    if has_maxlength
       counter = args[2]["counter"]
       func = counter ? "; enforce_textarea_maxlength(this,$('#{counter}')); " : "; enforce_textarea_maxlength(this); "
       args[2].delete("counter")
